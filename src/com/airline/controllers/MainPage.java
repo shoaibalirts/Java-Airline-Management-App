@@ -2,7 +2,9 @@ package com.airline.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +33,10 @@ public class MainPage extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
-		out.println("<html><body>");
-		out.println("<h2>We have added one passenger</h2>");
+		ServletContext sc = this.getServletContext();
+		ArrayList<Passenger> pList = (ArrayList<Passenger>) sc.getAttribute("passengers");
+		out.println("Passenger has been added. Number of passengers: "+pList.size());
+		out.println(pList);
 		out.close();
 	}
 

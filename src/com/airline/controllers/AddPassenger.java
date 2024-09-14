@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,7 +77,7 @@ public class AddPassenger extends HttpServlet {
 		String pattern = "^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(dob_raw);
-		if(m.find()) {
+		if (m.find()) {
 			String dobArray[] = dob_raw.split("\\/");
 			String month = dobArray[0];
 			String day = dobArray[1];
@@ -84,7 +85,7 @@ public class AddPassenger extends HttpServlet {
 
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.YEAR, Integer.parseInt(year));
-			cal.set(Calendar.MONTH, Integer.parseInt(month)-1);
+			cal.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 			cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
 
 			Date dob = cal.getTime();
@@ -95,18 +96,28 @@ public class AddPassenger extends HttpServlet {
 			request.setAttribute("errors", true);
 			request.setAttribute("date_format_error", true);
 		}
-		
 
 		String gender = request.getParameter("gender");
 		System.out.println(gender);
 		p.setGender(Gender.valueOf(gender));
 
-		if((Boolean)request.getAttribute("errors")){
-			RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/add_passenger.jsp");
+		if ((Boolean) request.getAttribute("errors")) {
+			RequestDispatcher view = request
+					.getRequestDispatcher("WEB-INF/views/add_passenger.jsp");
 			view.forward(request, response);
 		} else {
-			ArrayList<Passenger> pList = new ArrayList<Passenger>();
-			pList.add(p);
+			// in order to save the pList array permanently we have to use
+			// Servlet Context object
+			ServletContext sc = this.getServletContext();
+			synchronized (this) {
+				ArrayList<Passenger> pList = (ArrayList<Passenger>) sc
+						.getAttribute("passengers");
+				pList.add(p);
+				sc.setAttribute("passengers", pList); // this is the attribute
+														// of the servlet
+														// context
+			}
+			// System.out.println(p);
 			response.sendRedirect("");
 		}
 
