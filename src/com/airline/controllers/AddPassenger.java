@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,8 +32,10 @@ public class AddPassenger extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/add_passenger.jsp");
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher view = request
+				.getRequestDispatcher("WEB-INF/views/add_passenger.jsp");
 		view.forward(request, response);
 	}
 
@@ -42,26 +46,60 @@ public class AddPassenger extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		
+		request.setAttribute("errors", false);
 		String firstName = request.getParameter("first-name");
+		// Form field first-name validation
+		if (firstName.length() == 0) {
+			request.setAttribute("errors", true);
+			request.setAttribute("firstname_error", true);
+			System.out.println("empty first name error");
+		} else {
+			System.out.print(firstName);
+		}
 		String lastName = request.getParameter("last-name");
+		// Form field last-name validation
+		if (lastName.length() == 0) {
+			request.setAttribute("errors", true);
+			request.setAttribute("lastname_error", true);
+			System.out.println("empty last name error");
+
+		} else {
+			System.out.println(lastName);
+		}
 		// dob
 		String dob_raw = request.getParameter("dob");
-		
-		String dobArray [] = dob_raw.split("\\/");
-		String month = dobArray[0];
-		String day = dobArray[1];
-		String year = dobArray[2];
+		// Form field dob validation
+		String pattern = "^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(dob_raw);
+		if(m.find()) {
+			String dobArray[] = dob_raw.split("\\/");
+			String month = dobArray[0];
+			String day = dobArray[1];
+			String year = dobArray[2];
 
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
-		cal.set(Calendar.MONTH, Integer.parseInt(month));
-		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, Integer.parseInt(year));
+			cal.set(Calendar.MONTH, Integer.parseInt(month)-1);
+			cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
+
+			Date dob = cal.getTime();
+			System.out.println(dob);
+		} else {
+			System.out.println("Invalid date of birth");
+			request.setAttribute("errors", true);
+			request.setAttribute("date_format_error", true);
+		}
 		
-		Date dob = cal.getTime();
-		
+
 		String gender = request.getParameter("gender");
-		
+		System.out.println(gender);
+
+		if((Boolean)request.getAttribute("errors")){
+			RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/add_passenger.jsp");
+			view.forward(request, response);
+		}
+
 	}
 
 }
