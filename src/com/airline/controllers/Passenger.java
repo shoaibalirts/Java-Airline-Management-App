@@ -1,9 +1,11 @@
 package com.airline.controllers;
 
+import java.util.Date;
+
 public class Passenger {
 	private String firstName;
 	private String lastName;
-	private String dob;
+	private Date dob;
 	private Gender gender;
 	
 	// generate getters and setters
@@ -20,10 +22,10 @@ public class Passenger {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getDob() {
+	public Date getDob() {
 		return dob;
 	}
-	public void setDob(String dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 	public Gender getGender() {
