@@ -2,6 +2,8 @@ package com.airline.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,8 +43,25 @@ public class AddPassenger extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		
-		String firstName = request.getParameter("first_name");
-		out.println(firstName);
+		String firstName = request.getParameter("first-name");
+		String lastName = request.getParameter("last-name");
+		// dob
+		String dob_raw = request.getParameter("dob");
+		
+		String dobArray [] = dob_raw.split("\\/");
+		String month = dobArray[0];
+		String day = dobArray[1];
+		String year = dobArray[2];
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Integer.parseInt(year));
+		cal.set(Calendar.MONTH, Integer.parseInt(month));
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
+		
+		Date dob = cal.getTime();
+		
+		String gender = request.getParameter("gender");
+		
 	}
 
 }
