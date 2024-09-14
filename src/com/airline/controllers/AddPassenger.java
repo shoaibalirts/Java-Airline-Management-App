@@ -40,7 +40,9 @@ public class AddPassenger extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.println("Let me do brakefast first");
+		
+		String firstName = request.getParameter("first_name");
+		out.println(firstName);
 	}
 
 }
