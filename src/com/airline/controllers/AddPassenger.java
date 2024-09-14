@@ -29,7 +29,10 @@ public class AddPassenger extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		out.println("Hello");
+		response.setContentType("text/html");
+		out.println("<html><body>");
+		out.println("<h2>Welcome to World Advantures Airlines!</h2>");
+		out.println("</body></html>");
 	}
 
 	/**
