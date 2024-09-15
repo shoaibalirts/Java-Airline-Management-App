@@ -36,6 +36,10 @@ public class AddPassenger extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("first_name", "");
+		request.setAttribute("last_name", "");
+		request.setAttribute("dob", "");
+
 		RequestDispatcher view = request
 				.getRequestDispatcher("WEB-INF/views/add_passenger.jsp");
 		view.forward(request, response);
@@ -56,9 +60,11 @@ public class AddPassenger extends HttpServlet {
 			request.setAttribute("errors", true);
 			request.setAttribute("firstname_error", true);
 			System.out.println("empty first name error");
+			request.setAttribute("first_name", "");
 		} else {
 			System.out.print(firstName);
 			p.setFirstName(firstName);
+			request.setAttribute("first_name", firstName);
 		}
 		String lastName = request.getParameter("last-name");
 		// Form field last-name validation
@@ -66,10 +72,12 @@ public class AddPassenger extends HttpServlet {
 			request.setAttribute("errors", true);
 			request.setAttribute("lastname_error", true);
 			System.out.println("empty last name error");
+			request.setAttribute("last_name", "");
 
 		} else {
 			System.out.println(lastName);
 			p.setLastName(lastName);
+			request.setAttribute("last_name", lastName);
 		}
 		// dob
 		String dob_raw = request.getParameter("dob");
@@ -91,10 +99,12 @@ public class AddPassenger extends HttpServlet {
 			Date dob = cal.getTime();
 			System.out.println(dob);
 			p.setDob(dob);
+			request.setAttribute("dob", dob_raw);
 		} else {
 			System.out.println("Invalid date of birth");
 			request.setAttribute("errors", true);
 			request.setAttribute("date_format_error", true);
+			request.setAttribute("dob", "");
 		}
 
 		String gender = request.getParameter("gender");
