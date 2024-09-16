@@ -1,12 +1,13 @@
 package com.airline.service;
 
 import javax.ejb.LocalBean;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 
 /**
  * Session Bean implementation class FlightService
  */
-@Stateless
+@Stateful
 @LocalBean
 public class FlightService {
 
