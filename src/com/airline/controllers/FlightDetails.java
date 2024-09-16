@@ -59,8 +59,8 @@ public class FlightDetails extends HttpServlet {
 
 		fs.setFrom("Pakistan");
 
-		out.println(fs2.getFrom()); // Paris
-		out.println(fs.getFrom()); // Pakistan
+		out.println(fs2.getFrom()); // Pakistan? why due to random behavious of session it can point to fs2 point to fs
+		out.println(fs.getFrom()); //  Pakistan
 	
 	}
 
