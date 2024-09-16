@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.ejb.EJB;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.airline.service.FlightLocal;
-import com.airline.service.FlightRemote;
 
 /**
  * Servlet implementation class FlightDetails
@@ -23,11 +19,11 @@ import com.airline.service.FlightRemote;
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@EJB
+	@EJB (beanName="flightStateless")
 	private FlightLocal fs;
 	
-	@EJB
-	private FlightRemote fsRemote;
+	@EJB(beanName="flightStateful")
+	private FlightLocal fsStateful;
 	
 
 	/**
@@ -48,7 +44,8 @@ public class FlightDetails extends HttpServlet {
 		out.println("The flight details servlet has been called...");
 
 		out.println("Flight Details: " + fs.getFrom() + " to " + fs.getTo());
-		out.println("Flight Details: " + fsRemote.getFrom() + " to " + fsRemote.getTo());
+		out.println("Flight Details: " + fsStateful.getFrom() + " to " + fsStateful.getTo());
+
 
 
 	}
