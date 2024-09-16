@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.ejb.EJB;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,20 +22,8 @@ import com.airline.service.FlightService;
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private FlightService fs;
+	private FlightService fs = null;
 
-	@EJB
-	private FlightService fs2;
-	
-	@EJB
-	private FlightService fs3;
-	
-	@EJB
-	private FlightService fs4;
-	
-	@EJB
-	private FlightService fs5;
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -51,16 +42,19 @@ public class FlightDetails extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("The flight details servlet has been called...");
 		
-		fs.setFrom("London");
-		fs2.setFrom("Paris");
-		fs.setPrice(500);
-
-		fs.setTo("Rom");
-
-		fs.setFrom("Pakistan");
-
-		out.println(fs2.getFrom()); // Pakistan? why due to random behavious of session it can point to fs2 point to fs
-		out.println(fs.getFrom()); //  Pakistan
+		try {
+			Context context = new InitialContext();
+			Object fObj = context.lookup("java:global/web1/FlightService!com.airline.service.FlightService");
+			fs = (FlightService) fObj; // downcasting
+		}
+		catch (NamingException e){
+			System.out.println("Naming exception has occurred when trying to lookup the FlightService EJB manually");
+			e.printStackTrace();
+		}
+		if(fs!=null){
+			out.println("Flight Details: "+fs.getFrom()+" to "+fs.getTo());
+		}
+		
 	
 	}
 
