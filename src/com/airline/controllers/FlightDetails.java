@@ -52,18 +52,14 @@ public class FlightDetails extends HttpServlet {
 		out.println("The flight details servlet has been called...");
 		
 		fs.setFrom("London");
-		out.println(fs.getFrom());
-		
-		fs2.setFrom("Rom");
-		out.println(fs.getFrom());
-		
-		fs3.setFrom("New York");
-		out.println(fs.getFrom());
-		
-		fs4.setFrom("Paris");
-		out.println(fs.getFrom());
-		
-		fs5.setFrom("San Francisco");
+
+		fs.setPrice(500);
+
+		fs.setTo("Rom");
+
+		fs.setFrom("Pakistan");
+
+		fs.setFrom("London");
 		out.println(fs.getFrom());
 	
 	}
