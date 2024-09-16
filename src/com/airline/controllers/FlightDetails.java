@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.airline.service.FlightService;
+import com.airline.service.FlightLocal;
 
 /**
  * Servlet implementation class FlightDetails
@@ -22,9 +22,10 @@ import com.airline.service.FlightService;
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private FlightService fs = null;
-
+	@EJB
+	private FlightLocal fs;
 	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -41,21 +42,9 @@ public class FlightDetails extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		out.println("The flight details servlet has been called...");
-		
-		try {
-			Context context = new InitialContext();
-			Object fObj = context.lookup("java:global/web1/FlightService!com.airline.service.FlightService");
-			fs = (FlightService) fObj; // downcasting
-		}
-		catch (NamingException e){
-			System.out.println("Naming exception has occurred when trying to lookup the FlightService EJB manually");
-			e.printStackTrace();
-		}
-		if(fs!=null){
-			out.println("Flight Details: "+fs.getFrom()+" to "+fs.getTo());
-		}
-		
-	
+
+		out.println("Flight Details: " + fs.getFrom() + " to " + fs.getTo());
+
 	}
 
 	/**
