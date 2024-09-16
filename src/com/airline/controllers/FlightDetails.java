@@ -37,12 +37,7 @@ public class FlightDetails extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("id", fs.getId());
-		request.setAttribute("from", fs.getFrom());
-		request.setAttribute("to", fs.getTo());
-		request.setAttribute("price", fs.getPrice());
-		request.setAttribute("numOfSeats", fs.getNumOfSeats());
-		request.setAttribute("airplaneModel", fs.getAirplaneModel());
+		
 		
 		RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/flight_details.jsp");
 		view.forward(request, response);
