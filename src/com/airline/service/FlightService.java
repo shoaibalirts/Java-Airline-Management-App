@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 
-public class FlightService implements FlightLocal{
+public class FlightService implements FlightLocal, FlightRemote{
 
     /**
      * Default constructor. 
