@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +21,18 @@ public class FlightDetails extends HttpServlet {
 
 	@EJB
 	private FlightService fs;
+
+	@EJB
+	private FlightService fs2;
+	
+	@EJB
+	private FlightService fs3;
+	
+	@EJB
+	private FlightService fs4;
+	
+	@EJB
+	private FlightService fs5;
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,10 +48,24 @@ public class FlightDetails extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("The flight details servlet has been called...");
 		
+		fs.setFrom("London");
+		out.println(fs.getFrom());
 		
-		RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/flight_details.jsp");
-		view.forward(request, response);
+		fs2.setFrom("Rom");
+		out.println(fs.getFrom());
+		
+		fs3.setFrom("New York");
+		out.println(fs.getFrom());
+		
+		fs4.setFrom("Paris");
+		out.println(fs.getFrom());
+		
+		fs5.setFrom("San Francisco");
+		out.println(fs.getFrom());
+	
 	}
 
 	/**
