@@ -27,7 +27,7 @@ public class SessionListener implements HttpSessionListener {
 	/**
      * @see HttpSessionListener#sessionCreated(HttpSessionEvent)
      */
-    public void sessionCreated(HttpSessionEvent event)  { 
+    public void sessionCreated(HttpSessionEvent event)  { // event is httpSession
     	HttpSession s = event.getSession();
     	s.setAttribute("cbStateful", cbStateful);
     }

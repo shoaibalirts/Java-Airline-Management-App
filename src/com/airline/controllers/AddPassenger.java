@@ -123,9 +123,9 @@ public class AddPassenger extends HttpServlet {
 				ArrayList<Passenger> pList = (ArrayList<Passenger>) sc
 						.getAttribute("passengers");
 				pList.add(p);
-				sc.setAttribute("passengers", pList); // this is the attribute
-														// of the servlet
-														// context
+				sc.setAttribute("passengers", pList); // assigned new pList to the already created pList in the same sc created 
+														//in AirlineListener.java. 
+														// "passengers" is one of the the attributes of the servlet context
 			}
 			// System.out.println(p);
 			response.sendRedirect("");
